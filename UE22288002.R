@@ -43,5 +43,5 @@ ds_lowcost %>% select(precio_gasoleo_a,precio_gasolina_95_e5, idccaa, rotulo) %>
 
 ds_lowcost %>% count(horario,sort = TRUE)
 
-ds_lowcost %>% filter(horario == 'L-D: 24H') %>% select(!horario) %>% view()
+ds_lowcost %>% filter(horario == 'L-D: 24H') %>% select(!horario) %>% glimpse()
 
