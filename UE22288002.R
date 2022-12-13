@@ -106,7 +106,10 @@ MADCAT_AvgMaxMin <- merge(MADCAT_average, merge(MADCAT_masbarato, MADCAT_mascaro
 
 informe_MAD_BCN_expediente <- merge(MADCAT_AvgMaxMin,(ds_LC_noLC_MADyCAT), all = TRUE)
 
-write_csv(informe_MAD_BCN_expediente, "Informe_MAD_BCN_expediente")
+
+# creando formato CSV para informe_MAD_BCN_Expediente ---------------------
+
+write_csv(informe_MAD_BCN_expediente, "Informe_MAD_BCN_expediente.csv")
 
 
 #  C ----------------------------------------------------------- --------
