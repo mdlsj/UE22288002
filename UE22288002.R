@@ -43,5 +43,12 @@ ds_lowcost %>% select(precio_gasoleo_a,precio_gasolina_95_e5, idccaa, rotulo) %>
 
 ds_lowcost %>% count(horario,sort = TRUE)
 
-ds_lowcost %>% filter(horario == 'L-D: 24H') %>% select(!horario) %>% glimpse()
+no_24h <- ds_lowcost %>% filter(horario == 'L-D: 24H') %>%  select(!horario)
+
+## iv --------------------------------------------------------------------
+leaflet::addTiles()
+
+no_24h %>% leaflet() %>% addTiles() %>% addCircleMarkers(lng = ~longitud_wgs84, lat = ~latitud)
+top_ten <- no_24h %>% select(latitud, longitud_wgs84, municipio, rotulo) %>% filter(municipio == 'Alcobendas')
+no_24h %>% select(latitud, longitud_wgs84, low_cost, rotulo) %>% filter(low_cost == 'TRUE') no_lowcost[1:4, 1:10] == 'TRUE'
 
