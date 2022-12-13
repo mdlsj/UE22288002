@@ -55,4 +55,4 @@ no_24h %>% select(latitud, longitud_wgs84, low_cost, rotulo) %>% filter(low_cost
 # d
 # i ------- no 24 horas
 no_24h <- ds_lowcost %>% filter(horario == 'L-D: 24H') %>%  select(!horario) %>% view()
-write_excel_csv(no_24h)
+write_excel_csv(no_24h, "no abiertas 24h.xls")
