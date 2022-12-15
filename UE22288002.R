@@ -162,9 +162,8 @@ informe_MAD_BCN_UE22288002 <- merge(MADCAT_AvgMaxMin,(low_cost), all = TRUE) %>%
 
 # creando formato CSV para informe_MAD_BCN_Expediente ---------------------
 
-write_csv(informe_MAD_BCN_expediente, "Informe_MAD_BCN_expediente.csv")
 
-
+write_csv(informe_MAD_BCN_UE22288002, "Informe_MAD_BCN_UE22288002.csv")
 
 
 #  C ----------------------------------------------------------- --------
