@@ -155,8 +155,10 @@ MADCAT_AvgMaxMin <- merge(MADCAT_average, merge(MADCAT_masbarato, MADCAT_mascaro
 # uniendo low cost y no low cost con Average, Mas Caro, y Mas Bara --------
 
 
-informe_MAD_BCN_expediente <- merge(MADCAT_AvgMaxMin,(ds_LC_noLC_MADyCAT), all = TRUE)
 
+low_cost <- ds_lowcost %>% select(low_cost) %>% view()
+
+informe_MAD_BCN_UE22288002 <- merge(MADCAT_AvgMaxMin,(low_cost), all = TRUE) %>% view()
 
 # creando formato CSV para informe_MAD_BCN_Expediente ---------------------
 
