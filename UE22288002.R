@@ -87,10 +87,6 @@ precio_descendiendo <- ds_lowcost[order(ds_lowcost$precio_gasoleo_a,decreasing =
 precio_desc_paramapa <- precio_descendiendo %>% select(idccaa,precio_gasoleo_a,low_cost,id_municipio,id_provincia,rotulo,provincia,latitud,longitud_wgs84,margen) %>% view()
 
 
-# CREANDO ARCHIVOS --------------------------------------------------------
-
-
-
 
 # TOP 20 ------------------------------------------------------------------
 
@@ -226,13 +222,21 @@ write_excel_csv(no_24h, "no abiertas 24h.xls")
 
 # i ---------- ------------------------------------------------------------
 
+pobmun <- readxl::read_excel('pobmun21.xlsx', skip = 1) %>% view()
 
-# ii --------- ------------------------------------------------------------
+pob_def <- pobmun %>% select(NOMBRE,POB21) %>% clean_names() %>% view()
+
+pobdef_municipio <- pob_def %>% rename(municipio=nombre) %>% view()
 
 
+# AÑADIENDO POBLACION AL DATASET ORIGINAL ---------------------------------
+
+inner_join(ds_lowcost,pobdef_municipio, by="municipio") %>% view()
+  
 
 # iii--------- -----------------------------------------------------------
 
+low_cost24h <- merge(no_24h, ds_lowcost, all = TRUE)
 
-
+inner_join(no_24h,ds_lowcost, by="low_cost") %>% view()
 
