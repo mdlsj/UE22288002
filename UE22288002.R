@@ -240,3 +240,5 @@ ds_pobdef <- inner_join(ds_lowcost,pobdef_municipio, by="municipio") %>% view()
 # iii--------- -----------------------------------------------------------
 
 low_cost24h <- merge(no_24h, ds_lowcost, all = TRUE)
+
+low_cost24h[1:10,1:9] %>% View()
