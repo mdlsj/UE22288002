@@ -110,8 +110,11 @@ precio_asc_paramapa <- precio_ascendiendo %>% select(idccaa,precio_gasoleo_a,low
 
 Gasolineras_enMadrid <- sum(ds_lowcost$idccaa == "13") %>% view()
 
+#825
+
 Gasolineras_enCataluna <- sum(ds_lowcost$idccaa == "09") %>% view()
 
+#1514
 
 #  low cost y no low cost en Madrid y Cataluña ----------------------------
 
@@ -212,7 +215,7 @@ no_24h %>% select(latitud, longitud_wgs84, low_cost, rotulo) %>% filter(low_cost
 
 # ii--------excel ---------------------------------------------------------
 
-write_excel_csv(no_24h, "no abiertas 24h.xls")
+write_excel_csv(no_24h,'no_24_horas.xls')
 
 
 
@@ -231,12 +234,9 @@ pobdef_municipio <- pob_def %>% rename(municipio=nombre) %>% view()
 
 # AÑADIENDO POBLACION AL DATASET ORIGINAL ---------------------------------
 
-inner_join(ds_lowcost,pobdef_municipio, by="municipio") %>% view()
+ds_pobdef <- inner_join(ds_lowcost,pobdef_municipio, by="municipio") %>% view()
   
 
 # iii--------- -----------------------------------------------------------
 
 low_cost24h <- merge(no_24h, ds_lowcost, all = TRUE)
-
-inner_join(no_24h,ds_lowcost, by="low_cost") %>% view()
-
