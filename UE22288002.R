@@ -1,5 +1,7 @@
 
 # Modulo II ---------------------------------------------------------------
+
+
 ##A
 # i -----------------------------------------------------------------------
 
@@ -9,6 +11,8 @@ install.packages("pacman")
 library(pacman)
 p_load(tidyverse, janitor, jsonlite,leaflet)
 data <- fromJSON(url_)
+install.packages("dplyr")
+library(dplyr)
 
 ds_raw <- data$ListaEESSPrecio
 locale()
@@ -23,7 +27,7 @@ ds_f <- ds_raw %>% clean_names() %>% type_convert(locale = locale(decimal_mark =
 
 
 #  iii ----------------------------------------------------------- --------
-# #gasolineras que no son parte de las grandes corporaciones --------------
+------------
 
 ds_f %>% count(rotulo) %>% view()
 
@@ -50,13 +54,7 @@ preciopromedio_idccaa <- ds_lowcost %>% select(idccaa,precio_biodiesel,precio_bi
            precio_gasolina_98_e5 = mean(precio_gasolina_98_e5, na.rm = TRUE),
            precio_hidrogeno = mean(precio_hidrogeno, na.rm = TRUE)) %>% view()
            
-           
-           
-           
-           
-           
-           
-
+        
 ds_lowcost %>% view()
 
 ds_lowcost %>% select(precio_gasoleo_a, idccaa, rotulo) %>% group_by(idccaa) %>% 
@@ -67,27 +65,50 @@ ds_lowcost %>% select(precio_gasoleo_a,precio_gasolina_95_e5, idccaa, rotulo) %>
 
 ds_lowcost %>% count(horario,sort = TRUE)
 
+low_cost_num_expediente <- ds_lowcost %>% view()
 
+write.csv(low_cost_num_expediente,"low-cost_num_expediente")
 
 
 # iv ------------------------------------------------------------- --------
-leaflet::addTiles()
 
 
-no_24h %>% leaflet() %>% addTiles() %>% addCircleMarkers(lng = ~longitud_wgs84, lat = ~latitud)
-no_24h %>% select(latitud, longitud_wgs84, municipio, rotulo) %>% filter(municipio == 'Alcobendas')
-no_24h %>% select(latitud, longitud_wgs84, low_cost, rotulo) %>% filter(low_cost == 'TRUE') no_lowcost[1:4, 1:10] == 'TRUE' %>% view()
+# TOP 10 ------------------------------------------------------------------
 
-ds_Spain_paramapa <- ds_f %>% mutate(Spain = !rotulo %in% localidad)
-
-ds_Spain_paramapa %>% leaflet() %>% addTiles() %>% addCircleMarkers(lng = ~longitud_wgs84, lat = ~latitud)
-top10_Spain <- ds_Spain_paramapa %>% select(latitud, longitud_wgs84, municipio, rotulo) %>% filter(Spain = TRUE) %>% view()
-ds_Spain_paramapa %>% leaflet() %>% addTiles() %>% addCircleMarkers(lng = ~longitud_wgs84, lat = ~latitud) %>% top10_Spain[1:10] %>% view()
-ds_lowcost %>% select(latitud, longitud_wgs84, low_cost, rotulo) %>% no_24h[1:10] %>% view()
+top_10MasCaras <- precio_desc_paramapa[1:10,] %>% view()
 
 
+# MAPA TOP 10 -------------------------------------------------------------
 
-# B -------------------------------------------------------------- --------
+top_10MasCaras %>% leaflet() %>% addTiles() %>% addCircleMarkers(lng = ~longitud_wgs84,lat = ~latitud)
+
+# DATA SETS QUE CREE PARA SACAR EL TOP 10 ---------------------------------
+precio_descendiendo <- ds_lowcost[order(ds_lowcost$precio_gasoleo_a,decreasing = TRUE),] %>% view()
+precio_desc_paramapa <- precio_descendiendo %>% select(idccaa,precio_gasoleo_a,low_cost,id_municipio,id_provincia,rotulo,provincia,latitud,longitud_wgs84,margen) %>% view()
+
+
+# CREANDO ARCHIVOS --------------------------------------------------------
+
+
+
+
+# TOP 20 ------------------------------------------------------------------
+
+top_20MasBaratas <- precio_asc_paramapa[1:20,] %>% view()
+
+
+# MAPA TOP 20 -------------------------------------------------------------
+
+top_20MasBaratas %>% leaflet() %>% addTiles() %>% addCircleMarkers(lng = ~longitud_wgs84,lat = ~latitud)
+
+# DATA SETS QUE CREE PARA SACAR EL TOP 20 ---------------------------------
+precio_ascendiendo <- ds_lowcost[order(ds_lowcost$precio_gasoleo_a),] %>% view()
+precio_asc_paramapa <- precio_ascendiendo %>% select(idccaa,precio_gasoleo_a,low_cost,id_municipio,id_provincia,rotulo,provincia,latitud,longitud_wgs84,margen) %>% view()
+
+
+
+
+# B ------------------------------------------------------------- --------
 
 # i--------Cuantas hay en Madrid y en cataluña ----------------------------
 
@@ -143,6 +164,8 @@ informe_MAD_BCN_expediente <- merge(MADCAT_AvgMaxMin,(ds_LC_noLC_MADyCAT), all =
 write_csv(informe_MAD_BCN_expediente, "Informe_MAD_BCN_expediente.csv")
 
 
+
+
 #  C ----------------------------------------------------------- --------
 
 
@@ -180,6 +203,8 @@ informe_no_grandes_ciudades_expediente <- Prom_Max_Min_SinGrandesCiud
 write_excel_csv(informe_no_grandes_ciudades_expediente, "informe_no_grandes_ciudades_expediente")
 
 
+
+
 # D------- ----------------------------------------------------------------
 
 
@@ -207,6 +232,7 @@ write_excel_csv(no_24h, "no abiertas 24h.xls")
 
 
 # iii--------- -----------------------------------------------------------
+
 
 
 
