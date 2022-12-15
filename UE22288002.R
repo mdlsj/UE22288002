@@ -34,8 +34,28 @@ ds_lowcost <- ds_f %>% mutate(low_cost = !rotulo %in% no_lowcost)
 
 ds_lowcost %>% count(low_cost)
 
-ds_lowcost %>% select(precio_biodiesel,precio_bioetanol,precio_gas_natural_comprimido,precio_gas_natural_licuado,precio_gases_licuados_del_petroleo,precio_gasoleo_a,precio_gasoleo_b,precio_gasoleo_premium,precio_gasolina_95_e10,precio_gasolina_95_e5,precio_gasolina_95_e5_premium,precio_gasolina_98_e10,precio_gasolina_98_e5,precio_hidrogeno)
- summarise(precio_bio)
+preciopromedio_idccaa <- ds_lowcost %>% select(idccaa,precio_biodiesel,precio_bioetanol,precio_gas_natural_comprimido,precio_gas_natural_licuado,precio_gases_licuados_del_petroleo,precio_gasoleo_a,precio_gasoleo_b,precio_gasoleo_premium,precio_gasolina_95_e10,precio_gasolina_95_e5,precio_gasolina_95_e5_premium,precio_gasolina_98_e10,precio_gasolina_98_e5,precio_hidrogeno) %>% group_by(idccaa) %>% 
+ summarise(precio_biodiesel = mean(precio_biodiesel, na.rm = TRUE),
+           precio_bioetanol = mean(precio_bioetanol, na.rm = TRUE),
+           precio_gas_natural_comprimido = mean(precio_gas_natural_comprimido, na.rm = TRUE),
+           precio_gas_natural_licuado = mean(precio_gas_natural_licuado, na.rm = TRUE),
+           precio_gases_licuados_del_petroleo = mean(precio_gases_licuados_del_petroleo, na.rm = TRUE),
+           precio_gasoleo_a = mean(precio_gasoleo_a, na.rm = TRUE),
+           precio_gasoleo_b = mean(precio_gasoleo_b, na.rm = TRUE),
+           precio_gasoleo_premium = mean(precio_gasoleo_premium, na.rm = TRUE),
+           precio_gasolina_95_e10 = mean(precio_gasolina_95_e10, na.rm = TRUE),
+           precio_gasolina_95_e5 = mean(precio_gasolina_95_e5, na.rm = TRUE),
+           precio_gasolina_95_e5_premium = mean(precio_gasolina_95_e5_premium, na.rm = TRUE),
+           precio_gasolina_98_e10 = mean(precio_gasolina_98_e10, na.rm = TRUE),
+           precio_gasolina_98_e5 = mean(precio_gasolina_98_e5, na.rm = TRUE),
+           precio_hidrogeno = mean(precio_hidrogeno, na.rm = TRUE)) %>% view()
+           
+           
+           
+           
+           
+           
+           
 
 ds_lowcost %>% view()
 
@@ -47,7 +67,7 @@ ds_lowcost %>% select(precio_gasoleo_a,precio_gasolina_95_e5, idccaa, rotulo) %>
 
 ds_lowcost %>% count(horario,sort = TRUE)
 
-addcr
+
 
 
 # iv ------------------------------------------------------------- --------
