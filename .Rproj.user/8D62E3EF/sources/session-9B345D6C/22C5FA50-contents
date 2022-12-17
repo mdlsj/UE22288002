@@ -22,7 +22,7 @@ ds_f <- ds_raw %>% clean_names() %>% type_convert(locale = locale(decimal_mark =
 
 # # ii ----------------------------------------------------------- --------
 
-#las anomalias se deben a ______ hecho en clase
+#Las anomalias que he podido observar en ds_f es que hay N/As en mucho de los precios de los combustibles. En el precio del gasoleo_a tambien encuentro que en el rango hay un salto demasiado grande entre los precios cuya anomalia puede ser justificada tomando en cuenta impuestos especiales sobre los hidrocarburos y el IVA y tambien la alsa de precios impulsada por temas politicos y economicos
 
 
 
@@ -36,7 +36,7 @@ no_lowcost <- c('REPSOL','CEPSA','GALP','SHELL','BP','PETRONOR','AVIA','Q8','CAM
 
 ds_lowcost <- ds_f %>% mutate(low_cost = !rotulo %in% no_lowcost)
 
-ds_lowcost %>% count(low_cost)
+ds_lowcost %>% count(low_cost) %>% view()
 
 preciopromedio_idccaa <- ds_lowcost %>% select(idccaa,precio_biodiesel,precio_bioetanol,precio_gas_natural_comprimido,precio_gas_natural_licuado,precio_gases_licuados_del_petroleo,precio_gasoleo_a,precio_gasoleo_b,precio_gasoleo_premium,precio_gasolina_95_e10,precio_gasolina_95_e5,precio_gasolina_95_e5_premium,precio_gasolina_98_e10,precio_gasolina_98_e5,precio_hidrogeno) %>% group_by(idccaa) %>% 
  summarise(precio_biodiesel = mean(precio_biodiesel, na.rm = TRUE),
@@ -53,9 +53,7 @@ preciopromedio_idccaa <- ds_lowcost %>% select(idccaa,precio_biodiesel,precio_bi
            precio_gasolina_98_e10 = mean(precio_gasolina_98_e10, na.rm = TRUE),
            precio_gasolina_98_e5 = mean(precio_gasolina_98_e5, na.rm = TRUE),
            precio_hidrogeno = mean(precio_hidrogeno, na.rm = TRUE)) %>% view()
-           
-        
-ds_lowcost %>% view()
+  
 
 ds_lowcost %>% select(precio_gasoleo_a, idccaa, rotulo) %>% group_by(idccaa) %>% 
   summarise(precio_medio = mean(precio_gasoleo_a, na.rm = TRUE)) %>% view()
@@ -119,7 +117,7 @@ Gasolineras_enCataluna <- sum(ds_lowcost$idccaa == "09") %>% view()
 #  low cost y no low cost en Madrid y Cataluña ----------------------------
 
 ds_LC_noLC_MADyCAT <- ds_lowcost %>% select(municipio, rotulo, low_cost, idccaa) %>% filter(idccaa == '13'| idccaa == '09')
-ds_LC_noLC_MADyCAT %>% count(low_cost) %>% view()
+LowCost_NolowCostMADCAT <- ds_LC_noLC_MADyCAT %>% count(low_cost) %>% view()
 
 
 # ii------- ---------------------------------------------------------------
@@ -158,13 +156,12 @@ MADCAT_AvgMaxMin <- merge(MADCAT_average, merge(MADCAT_masbarato, MADCAT_mascaro
 
 low_cost <- ds_lowcost %>% select(low_cost) %>% view()
 
-informe_MAD_BCN_UE22288002 <- merge(MADCAT_AvgMaxMin,(low_cost), all = TRUE) %>% view()
+informe_MAD_BCN_UE22288002 <- MADCAT_AvgMaxMin %>% view()
 
 # creando formato CSV para informe_MAD_BCN_Expediente ---------------------
 
 
 write_csv(informe_MAD_BCN_UE22288002, "Informe_MAD_BCN_UE22288002.csv")
-
 
 #  C ----------------------------------------------------------- --------
 
@@ -238,8 +235,3 @@ pobdef_municipio <- pob_def %>% rename(municipio=nombre) %>% view()
 ds_pobdef <- inner_join(ds_lowcost,pobdef_municipio, by="municipio") %>% view()
   
 
-# iii--------- -----------------------------------------------------------
-
-low_cost24h <- merge(no_24h, ds_lowcost, all = TRUE)
-
-low_cost24h[1:10,1:9] %>% View()
