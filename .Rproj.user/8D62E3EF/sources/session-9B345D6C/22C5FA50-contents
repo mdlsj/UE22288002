@@ -233,5 +233,6 @@ pobdef_municipio <- pob_def %>% rename(municipio=nombre) %>% view()
 # AÑADIENDO POBLACION AL DATASET ORIGINAL ---------------------------------
 
 ds_pobdef <- inner_join(ds_lowcost,pobdef_municipio, by="municipio") %>% view()
-  
+
+write_excel_csv(ds_pobdef, 'dataset_original_con_poblacion_UE22288002.xls')
 
