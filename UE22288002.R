@@ -185,6 +185,8 @@ masbarato_sinGrandesCiud <- ds_sin_GrandesCiudades %>% select(precio_gasoleo_a,p
 mascaro_sinGrandesCiud <- ds_sin_GrandesCiudades %>% select(precio_gasoleo_a,precio_gasolina_95_e5_premium, id_provincia) %>% group_by(id_provincia) %>% 
   summarise(gasoleo_a = max(precio_gasoleo_a, na.rm = TRUE),  gasolina_95= max(precio_gasolina_95_e5_premium, na.rm = TRUE)) %>% view()
 
+# Aquí podías haber agrupado todos los summarise en uno solo para que la tabla pareciera conjunta, si embargo el resultado correcto
+
 
 # Tabla que presenta el Promedio, Maximo, Y Minimo sin incluir grandes ciudades--------
 
