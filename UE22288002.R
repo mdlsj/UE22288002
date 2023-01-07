@@ -18,7 +18,7 @@ ds_raw <- data$ListaEESSPrecio
 locale()
 
 ds_f <- ds_raw %>% clean_names() %>% type_convert(locale = locale(decimal_mark = ",")) %>% as_tibble() %>% glimpse()
-
+# Iniciar revisión del código
 
 # # ii ----------------------------------------------------------- --------
 
